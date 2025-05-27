@@ -1,1 +1,6 @@
-Django>=4.2
+asgiref==3.8.1
+Django==5.2.1
+django-dotenv==1.4.2
+setuptools==72.1.0
+sqlparse==0.5.3
+wheel==0.43.0
