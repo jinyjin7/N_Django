@@ -1,5 +1,5 @@
 from django.db import models
-from models import BaseUser,School
+from models import School
 from django.db.models import QuerySet
 
 class TeacherManager(models.Manager):
