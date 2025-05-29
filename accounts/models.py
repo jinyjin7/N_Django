@@ -57,19 +57,21 @@ class BaseUser(AbstractBaseUser):
 
     @property
     def is_student(self):
-        return hasattr(self, 'student_profile')
+        return hasattr(self, 'student')
 
     @property
     def is_teacher(self):
-        return hasattr(self, 'teacher_profile')
-
+        return hasattr(self, 'teacher')
+    # 유저타입 리턴값 수정
     @property
     def user_type(self):
         if self.is_student:
-            return 'student'
+            return '학생'
         elif self.is_teacher:
-            return 'teacher'
-        return 'none'
+            return '선생님'
+        elif self.is_admin:
+            return '관리자'
+        return '기타'
 
 
 class SchoolChoices(models.TextChoices):
@@ -93,7 +95,7 @@ class Student(models.Model):
     class Meta:
         db_table = 'student'
 
-    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='student_profile')
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='student')
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='students')
     grade = models.PositiveIntegerField(blank=True, null=True)
     classroom = models.PositiveIntegerField(blank=True, null=True)
@@ -107,7 +109,7 @@ class Teacher(models.Model):
     class Meta:
         db_table = 'teacher'
 
-    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='teacher_profile')
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='teacher')
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='teachers')
     subject = models.CharField(max_length=100, blank=True)  # 담당 과목
 
