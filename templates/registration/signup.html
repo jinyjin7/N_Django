@@ -10,7 +10,7 @@
 <script>
 async function signup(userData) {
     try {
-        const response = await fetch('http://localhost:8000/signup/', {
+        const response = await fetch('http://localhost:8000/api/signup/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ async function signup(userData) {
 
         if (response.ok) {
             alert(data.message); // "회원가입이 완료되었습니다."
-            window.location.href = '/login/'; // 로그인 페이지로 이동
+            window.location.href = 'api/login/'; // 로그인 페이지로 이동
         } else {
             console.error('회원가입 실패:', data);
             displayErrors(data); // 에러 표시
