@@ -7,7 +7,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Your Project API",
+      title="Project API",
       default_version='v1',
       description="API 문서입니다.",
    ),
@@ -17,7 +17,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('accounts.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('', index, name='index'),
-    path('', include('accounts.urls')),
 ]

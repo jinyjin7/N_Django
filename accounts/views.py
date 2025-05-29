@@ -49,33 +49,38 @@ class UserFilter(django_filters.FilterSet):
         }
         return type_filters.get(value, queryset)
 
-# 공통 리스트
-class BaseListViewSet(viewsets.ReadOnlyModelViewSet):
+
+# 유저 리스트 전체 조회
+class UserListViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
 
-# 유저 리스트 전체 조회
-class UserListViewSet(BaseListViewSet):
     queryset = BaseUser.objects.all().order_by('name')
     serializer_class = UserListSerializer
     filterset_class = UserFilter
-    search_fields = ['name', 'email']
-    ordering = ['name']
+    search_fields = ['email','is_active']
     ordering_fields = ['name', 'date_joined']
 
 # 학생 리스트 조회
-class StudentList(BaseListViewSet):
+class StudentList(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
     queryset = Student.objects.all().order_by('grade')
     serializer_class = StudentListSerializer
     search_fields = ['user__name', 'grade', 'classroom', 'school__name']
-    ordering = ['grade']
-    ordering_fields = ['grade']
+    ordering_fields = ['user__name','grade','classroom','school__name']
+
 
 # 선생님 리스트 조회
-class TeacherList(BaseListViewSet):
+class TeacherList(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
     queryset = Teacher.objects.all().order_by('user__name')
     serializer_class = TeacherListSerializer
     search_fields = ['user__name', 'user__email', 'subject','school__name']
-    ordering = ['user__name']
-    ordering_fields = ['user__name']
+    ordering_fields = ['user__name','school__name']
